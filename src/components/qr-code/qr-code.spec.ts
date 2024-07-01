@@ -1,4 +1,4 @@
-import { TestWindow } from '@stencil/core/testing';
+import { SpecPage, newSpecPage } from '@stencil/core/testing';
 import { BpQRCode } from './qr-code';
 
 describe('qr-code', () => {
@@ -8,15 +8,14 @@ describe('qr-code', () => {
 
   describe('rendering', () => {
     let element: HTMLQrCodeElement;
-    let testWindow: TestWindow;
+    let testWindow: SpecPage;
     beforeEach(async () => {
-      testWindow = new TestWindow();
-      element = await testWindow.load({
+      testWindow = await newSpecPage({
         components: [BpQRCode],
         html: '<qr-code></qr-code>',
       });
     });
-
+    element = testWindow.rootInstance;
     it('should work without parameters', () => {
       expect(element.textContent.trim()).toEqual('TODO');
     });

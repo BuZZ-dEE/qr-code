@@ -7,7 +7,8 @@ import {
   Method,
   State,
   Watch,
-} from '@stencil/core';
+  h
+} from '@stencil/core/internal';
 
 import { addPlugin, animate } from 'just-animate';
 import { waapiPlugin } from 'just-animate/lib.es2015/web';
@@ -83,14 +84,14 @@ export class BpQRCode {
   }
 
   @Method()
-  animateQRCode(animation?: AnimationPreset | QRCodeAnimation) {
+  async animateQRCode(animation?: AnimationPreset | QRCodeAnimation) {
     this.executeAnimation(
       typeof animation === 'string' ? getAnimationPreset(animation) : animation
     );
   }
 
   @Method()
-  getModuleCount() {
+  async getModuleCount() {
     return this.moduleCount;
   }
 

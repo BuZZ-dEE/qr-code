@@ -1,4 +1,6 @@
-exports.config = {
+import { Config } from '@stencil/core';
+
+export const config: Config = {
   namespace: 'qr-code',
   outputTargets: [
     {
@@ -7,6 +9,6 @@ exports.config = {
     {
       type: 'www',
       serviceWorker: false,
-    },
-  ],
+    }
+  ]
 };
