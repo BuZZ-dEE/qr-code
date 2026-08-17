@@ -7,17 +7,18 @@ describe('qr-code', () => {
   });
 
   describe('rendering', () => {
-    let element: HTMLQrCodeElement;
+    let element: BpQRCode;
     let testWindow: SpecPage;
     beforeEach(async () => {
       testWindow = await newSpecPage({
         components: [BpQRCode],
         html: '<qr-code></qr-code>',
       });
+      element = testWindow.rootInstance;
     });
-    element = testWindow.rootInstance;
+
     it('should work without parameters', () => {
-      expect(element.textContent.trim()).toEqual('TODO');
+      expect(element.data).toContain('<svg');
     });
   });
 });

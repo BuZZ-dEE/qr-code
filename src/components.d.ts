@@ -10,13 +10,34 @@ export { AnimationPreset, QRCodeAnimation } from "./components/qr-code/animation
 export namespace Components {
     interface QrCode {
         "animateQRCode": (animation?: AnimationPreset | QRCodeAnimation) => Promise<void>;
+        /**
+          * @default ''
+         */
         "contents": string;
         "getModuleCount": () => Promise<number>;
+        /**
+          * @default 1
+         */
         "maskXToYRatio": number;
+        /**
+          * @default '#000'
+         */
         "moduleColor": string;
+        /**
+          * @default '#000'
+         */
         "positionCenterColor": string;
+        /**
+          * @default '#000'
+         */
         "positionRingColor": string;
+        /**
+          * @default ''
+         */
         "protocol": string;
+        /**
+          * @default false
+         */
         "squares": boolean;
     }
 }
@@ -48,24 +69,56 @@ declare global {
 }
 declare namespace LocalJSX {
     interface QrCode {
+        /**
+          * @default ''
+         */
         "contents"?: string;
+        /**
+          * @default 1
+         */
         "maskXToYRatio"?: number;
+        /**
+          * @default '#000'
+         */
         "moduleColor"?: string;
         "onCodeRendered"?: (event: QrCodeCustomEvent<any>) => void;
+        /**
+          * @default '#000'
+         */
         "positionCenterColor"?: string;
+        /**
+          * @default '#000'
+         */
         "positionRingColor"?: string;
+        /**
+          * @default ''
+         */
         "protocol"?: string;
+        /**
+          * @default false
+         */
         "squares"?: boolean;
     }
+
+    interface QrCodeAttributes {
+        "contents": string;
+        "protocol": string;
+        "moduleColor": string;
+        "positionRingColor": string;
+        "positionCenterColor": string;
+        "maskXToYRatio": number;
+        "squares": boolean;
+    }
+
     interface IntrinsicElements {
-        "qr-code": QrCode;
+        "qr-code": Omit<QrCode, keyof QrCodeAttributes> & { [K in keyof QrCode & keyof QrCodeAttributes]?: QrCode[K] } & { [K in keyof QrCode & keyof QrCodeAttributes as `attr:${K}`]?: QrCodeAttributes[K] } & { [K in keyof QrCode & keyof QrCodeAttributes as `prop:${K}`]?: QrCode[K] };
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "qr-code": LocalJSX.QrCode & JSXBase.HTMLAttributes<HTMLQrCodeElement>;
+            "qr-code": LocalJSX.IntrinsicElements["qr-code"] & JSXBase.HTMLAttributes<HTMLQrCodeElement>;
         }
     }
 }

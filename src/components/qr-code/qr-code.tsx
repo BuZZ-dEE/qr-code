@@ -8,7 +8,7 @@ import {
   State,
   Watch,
   h
-} from '@stencil/core/internal';
+} from '@stencil/core';
 
 import { addPlugin, animate } from 'just-animate';
 import { waapiPlugin } from 'just-animate/lib.es2015/web';
@@ -46,12 +46,12 @@ export class BpQRCode {
 
   @Event() codeRendered: EventEmitter;
 
-  /**
-   * The first update must run after load to query the created shadowRoot for
-   * slotted nodes.
-   */
-  componentDidLoad() {
+  componentWillLoad() {
     this.updateQR();
+  }
+
+  componentDidLoad() {
+    this.codeRendered.emit();
   }
 
   componentDidUpdate() {
@@ -66,19 +66,9 @@ export class BpQRCode {
   @Watch('maskXToYRatio')
   @Watch('squares')
   updateQR() {
-    /**
-     * E.g. Firefox, as of Firefox 61
-     */
-    const isUsingWebComponentPolyfill =
-      (this.qrCodeElement as any) === this.qrCodeElement.shadowRoot;
-    const realSlot = this.qrCodeElement.shadowRoot.querySelector('slot');
-    const hasSlot = isUsingWebComponentPolyfill
-      ? this.qrCodeElement.querySelector('[slot]')
-        ? true
-        : false
-      : realSlot
-      ? realSlot.assignedNodes().length > 0
-      : false;
+    const hasSlot = Array.from(this.qrCodeElement.children).some(
+      (element) => element.getAttribute('slot') === 'icon'
+    );
 
     this.data = this.generateQRCodeSVG(this.contents, hasSlot);
   }

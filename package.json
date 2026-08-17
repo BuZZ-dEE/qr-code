@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "description": "QR Code Web Component",
   "module": "dist/esm/index.js",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs.js",
   "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "files": [
@@ -17,15 +17,15 @@
     "start": "npm run watch",
     "oldtest": "jest",
     "oldtest.watch": "jest --watch",
-    "test": "stencil test --spec",
-    "test.watch": "stencil test --spec --watchAll"
+    "test": "jest",
+    "test.watch": "jest --watch"
   },
   "devDependencies": {
-    "@stencil/core": "^4.19.1",
-    "@types/jest": "^29.5.12",
-    "jest": "^29.7.0",
+    "@stencil/core": "^4.44.0",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.4.2",
     "just-animate": "^2.6.2",
-    "qrcode-generator": "^1.4.4"
+    "qrcode-generator": "^2.0.4"
   },
   "repository": {
     "type": "git",
@@ -38,7 +38,10 @@
   "homepage": "https://qr.bitjson.com",
   "jest": {
     "transform": {
-      "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/@stencil/core/testing/jest.preprocessor.js"
+      "^.+\\.(ts|tsx)$": "<rootDir>/jest-preprocessor.cjs"
+    },
+    "moduleNameMapper": {
+      "^just-animate/lib.es2015/(.*)$": "<rootDir>/node_modules/just-animate/lib/$1"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(tsx?|jsx?)$",
     "moduleFileExtensions": [
